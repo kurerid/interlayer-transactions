@@ -9,29 +9,24 @@ import (
 )
 
 type (
-	Creator interface {
+	Person interface {
 		Create(ctx context.Context) (int, error)
+		Edit(ctx context.Context, id int, name string, age int) (*models.CreatePersonOutput, error)
 	}
 
 	Transactor interface {
 		WithinTransaction(ctx context.Context, tFunc transactor.Func) (interface{}, error)
 	}
 
-	Editor interface {
-		EditPerson(ctx context.Context, id int, name string, age int) (*models.CreatePersonOutput, error)
-	}
-
 	Services struct {
-		Creator
+		Person
 		Transactor
-		Editor
 	}
 )
 
 func NewServices(repo *repository.Repository) *Services {
 	return &Services{
-		Creator:    NewCreatorService(repo.Creator),
+		Person:     NewCreatorService(repo.Person),
 		Transactor: NewTransactorService(repo.Transactor),
-		Editor:     NewEditorService(repo.Editor),
 	}
 }

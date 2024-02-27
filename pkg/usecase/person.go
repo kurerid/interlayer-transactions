@@ -6,12 +6,12 @@ import (
 
 func (s *Usecase) CreatePerson(name string, age int) (interface{}, error) {
 	return s.Service.Transactor.WithinTransaction(context.Background(), func(ctx context.Context) (interface{}, error) {
-		id, err := s.Service.Creator.Create(ctx)
+		id, err := s.Service.Person.Create(ctx)
 		if err != nil {
 			return nil, err
 		}
 
-		output, err := s.Service.Editor.EditPerson(ctx, id, name, age)
+		output, err := s.Service.Person.Edit(ctx, id, name, age)
 		if err != nil {
 			return nil, err
 		}

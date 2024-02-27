@@ -9,8 +9,9 @@ import (
 )
 
 type (
-	Creator interface {
+	Person interface {
 		Create(ctx context.Context) (int, error)
+		Edit(ctx context.Context, id int, name string, age int) (*models.CreatePersonOutput, error)
 	}
 
 	Transactor interface {
@@ -18,20 +19,17 @@ type (
 	}
 
 	Editor interface {
-		EditPerson(ctx context.Context, id int, name string, age int) (*models.CreatePersonOutput, error)
 	}
 
 	Repository struct {
-		Creator
+		Person
 		Transactor
-		Editor
 	}
 )
 
 func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
-		Creator:    NewCreatorPostgres(db),
+		Person:     NewCreatorPostgres(db),
 		Transactor: NewTransactorPostgres(db),
-		Editor:     NewEditorPostgres(db),
 	}
 }
