@@ -19,11 +19,11 @@ func main() {
 	}
 
 	repo := repository.NewRepository(db)
-	service := service.NewServices(repo)
-	usecase := usecase.NewUsecase(service)
-	handler := handler.NewHandler(usecase)
+	services := service.NewServices(repo)
+	usecases := usecase.NewUsecase(services)
+	handlers := handler.NewHandler(usecases)
 
-	if err := http.ListenAndServe(":8080", handler.InitRoutes()); err != nil {
+	if err := http.ListenAndServe(":8080", handlers.InitRoutes()); err != nil {
 		log.Fatal(err.Error())
 	}
 }

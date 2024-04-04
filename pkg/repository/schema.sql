@@ -1,5 +1,4 @@
-CREATE TABLE "Person" (
-    "id" serial primary key,
-    "name" varchar not null unique,
-    "age" int check(age > 0)
+CREATE TABLE "Account" (
+    "email" varchar(100) primary key,
+    "password" varchar(100) not null
 );

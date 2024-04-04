@@ -18,7 +18,7 @@ func NewHandler(usecase *usecase.Usecase) *Handler {
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.Default()
 
-	router.POST("/api/person", h.createPerson)
+	router.POST("/api/account", h.registerAccount)
 
 	return router
 }

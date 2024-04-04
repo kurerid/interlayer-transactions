@@ -25,11 +25,11 @@ func (r *TransactorPostgres) WithinTransaction(ctx context.Context, tFunc transa
 
 	output, err := tFunc(injectTx(ctx, tx))
 	if err != nil {
-		tx.Rollback()
+		_ = tx.Rollback()
 		return nil, err
 	}
 
-	tx.Commit()
+	_ = tx.Commit()
 	return output, nil
 }
 

@@ -3,15 +3,15 @@ package service
 import (
 	"context"
 
-	"main.go/models"
 	"main.go/pkg/repository"
 	"main.go/pkg/transactor"
 )
 
 type (
-	Person interface {
-		Create(ctx context.Context) (int, error)
-		Edit(ctx context.Context, id int, name string, age int) (*models.CreatePersonOutput, error)
+	Account interface {
+		Exist(email string) (bool, error)
+		Register(email string, password string, ctx context.Context) error
+		SendConfirmation(ctx context.Context, email string) error
 	}
 
 	Transactor interface {
@@ -19,14 +19,14 @@ type (
 	}
 
 	Services struct {
-		Person
+		Account
 		Transactor
 	}
 )
 
 func NewServices(repo *repository.Repository) *Services {
 	return &Services{
-		Person:     NewCreatorService(repo.Person),
+		Account:    NewAccountService(repo.Account),
 		Transactor: NewTransactorService(repo.Transactor),
 	}
 }
